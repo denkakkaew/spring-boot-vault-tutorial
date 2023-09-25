@@ -48,7 +48,7 @@ This should display the version number of Vault.
 # Step 6: Configure Vault:
 
 Configuration file is /etc/vault.d/vault.hcl, change tls_cert_file and tls_key_file to your cert file and keystore. The default data paths are stored in /opt/vault/data as recommended. 
-```json
+```hcl
 storage "raft" {
   path    = "/opt/vault/data"  //vault will store thing on this path
   node_id = "node1"
