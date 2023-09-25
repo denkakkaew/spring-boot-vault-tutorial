@@ -19,36 +19,36 @@ curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/s
 # Step 2: Add HashiCorp APT Repository:
 
 Next, add the HashiCorp APT repository to your system's sources list:
-
+```bash
 echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs)
  main"
  | sudo tee
  /etc/apt/sources.list.d/hashicorp.list
-
+```
 # Step 3: Update Package List:
 
 Update your package list to include the new HashiCorp repository:
-
+```bash
 sudo apt update
-
+```
 # Step 4: Install Vault:
 
 Finally, install Vault using the APT package manager:
-
+```bash
 sudo apt install vault
-
+```
 # Step 5: Verify the Installation:
 
 Check that Vault has been successfully installed by running:
-
+```bash
 vault --version
-
+```
 This should display the version number of Vault.
 
 # Step 6: Configure Vault:
 
 Configuration file is /etc/vault.d/vault.hcl, change tls_cert_file and tls_key_file to your cert file and keystore. The default data paths are stored in /opt/vault/data as recommended. 
-
+```json
 storage "raft" {
   path    = "/opt/vault/data"  //vault will store thing on this path
   node_id = "node1"
@@ -62,27 +62,27 @@ listener "tcp" {
 api_addr = "http://127.0.0.1:8200"
 cluster_addr = "https://127.0.0.1:8201"
 ui = true
-
+```
 After configuration done, restart vault service.
-
+```bash
 service vault stop
 service vault start
-
+```
 # Step 7: Initialize vault:
 
 This can be done by web ui or command line. For web gui you can navigate to http://127.0.0.1:8200 and following instruction. To initialize vault by command, do the folloing command
 
 Before run initialize you need to export two environment variables as follow
-
+```bash
 $ export VAULT_ADDR='https://localhost:8200'
 $ export VAULT_CACERT=/home/administrator/vault-test/ssl-vault-test/cert.pem
-
+```
 Then run the following command
-
+```bash
 $ vault operator init
-
+```
 Output of this command will contains unseal key and root token as show follow:
-
+```bash
 Unseal Key 1: NO/iZxf0pnVvB1lOIdCtPP2InS07DQM/zkrD+FasNuoI
 Unseal Key 2: n/p4q7gDAbNis2Qm1l99Lrge43z8U/CSZYtodxTGhgpM
 Unseal Key 3: +dEwUuGhUvLv4xSfnroGuZ2PKdhvYdlFrYy4iV8ME7/d
@@ -101,7 +101,7 @@ reconstruct the root key, Vault will remain permanently sealed!
 
 It is possible to generate new unseal keys, provided you have a quorum of
 existing unseal keys shares. See "vault operator rekey" for more information.
-
+```
 When vault service start, it start with seal state. You cannot access to vault if vault in seal state. To unseal vault, you need unseal keys
 
 The Initial Root Token use for access vault. It is recommend to generate new token and keep root token in secret.
@@ -109,11 +109,11 @@ The Initial Root Token use for access vault. It is recommend to generate new tok
 # Step 8: Unseal Vault:
 
 Following command to unseal vault
-
+```bash
 $ vault operator unseal
-
+```
 Below are the output
-
+```bash
 Unseal Key (will be hidden):<type the unseal key>
 Key            	Value
 ---            	-----
@@ -128,22 +128,22 @@ Version        	1.14.0
 Build Date     	2023-06-19T11:40:23Z
 Storage Type   	raft
 HA Enabled     	true
-
+```
 Do this 3 times and use difference Unseal key until the “Sealed false”
 
 # Step 9: Generate new token:
 
 Using root token from Step 7 to export one more environment variable as follow
-
+```bash
 $ export VAULT_TOKEN="hvs.1KQB2h1HMsbrzTua8nUBZySg"
-
+```
 Then use following command to generate new token.
 
 Please see more information about how to manage vault token here: https://developer.hashicorp.com/vault/tutorials/tokens/token-management
-
+```bash
 $ vault token create -policy=default
 
 Key                  Value
 ---                  -----
 token                hvs.CAESIPTd9dl2cePaceCI8SLKjD-mEq8pVC4vy730D7m9jImjGh4KHGh2cy45Y2pyUU5rSTB4Y3hpeno0aVJEZld3U1E
-
+```
