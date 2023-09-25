@@ -1,4 +1,4 @@
-#Introduction:
+# Introduction:
 
 HashiCorp Vault is a powerful tool for managing secrets and protecting sensitive data. It provides a secure and centralized way to store, access, and manage credentials, tokens, and other secrets. In this blog post, we will walk you through the process of installing Vault as a service on an Ubuntu server, enabling you to harness its capabilities to enhance security and manage secrets effectively.
 
