@@ -10,13 +10,13 @@ Before we begin, ensure you have the following prerequisites in place:
     A basic understanding of the command line.
     A user account with sudo privileges.
 
-#Step 1: Import HashiCorp GPG Key:
+# Step 1: Import HashiCorp GPG Key:
 
 HashiCorp provides a GPG key to sign their packages. You need to import this key to verify the package's authenticity. Run the following command:
-
+```bash
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-
-#Step 2: Add HashiCorp APT Repository:
+```
+# Step 2: Add HashiCorp APT Repository:
 
 Next, add the HashiCorp APT repository to your system's sources list:
 
@@ -25,19 +25,19 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://
  | sudo tee
  /etc/apt/sources.list.d/hashicorp.list
 
-#Step 3: Update Package List:
+# Step 3: Update Package List:
 
 Update your package list to include the new HashiCorp repository:
 
 sudo apt update
 
-#Step 4: Install Vault:
+# Step 4: Install Vault:
 
 Finally, install Vault using the APT package manager:
 
 sudo apt install vault
 
-#Step 5: Verify the Installation:
+# Step 5: Verify the Installation:
 
 Check that Vault has been successfully installed by running:
 
@@ -45,7 +45,7 @@ vault --version
 
 This should display the version number of Vault.
 
-#Step 6: Configure Vault:
+# Step 6: Configure Vault:
 
 Configuration file is /etc/vault.d/vault.hcl, change tls_cert_file and tls_key_file to your cert file and keystore. The default data paths are stored in /opt/vault/data as recommended. 
 
@@ -68,7 +68,7 @@ After configuration done, restart vault service.
 service vault stop
 service vault start
 
-#Step 7: Initialize vault:
+# Step 7: Initialize vault:
 
 This can be done by web ui or command line. For web gui you can navigate to http://127.0.0.1:8200 and following instruction. To initialize vault by command, do the folloing command
 
@@ -106,7 +106,7 @@ When vault service start, it start with seal state. You cannot access to vault i
 
 The Initial Root Token use for access vault. It is recommend to generate new token and keep root token in secret.
 
-#Step 8: Unseal Vault:
+# Step 8: Unseal Vault:
 
 Following command to unseal vault
 
@@ -131,7 +131,7 @@ HA Enabled     	true
 
 Do this 3 times and use difference Unseal key until the “Sealed false”
 
-#Step 9: Generate new token:
+# Step 9: Generate new token:
 
 Using root token from Step 7 to export one more environment variable as follow
 
